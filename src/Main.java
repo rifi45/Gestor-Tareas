@@ -1,18 +1,25 @@
 
-
+//Importaciones de clases para JavaFX
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.sql.SQLException;
-
-import es.madrid.proyecto_principal.modelo.dao_bbdd.ConexionBD;
+//Importaciones de clases locales
 import es.madrid.proyecto_principal.vista.*;
+
+/**
+ * @autor Mohamed Afallah
+ * @version 1.0
+ */
 
 public class Main extends Application {
 
+    /**
+     * Sobreescribimos el metoso start de la clase Application de la cual hereda mi clase Main
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Cargar la vista desde el archivo FXML
@@ -35,6 +42,11 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Mi metodo principal main en la cual unicamente llamo a un metodo
+     * el cual me recupera la llamada del metodo que sobreEscribo
+     * @param args
+     */
     public static void main(String[] args){
         launch(args);
     }
