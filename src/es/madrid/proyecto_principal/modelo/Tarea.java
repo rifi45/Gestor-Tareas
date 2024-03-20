@@ -5,12 +5,14 @@ public abstract class Tarea {
     private String descripcion;
     private String fechaLimite;
     private int prioridad;
+    private boolean realizada;
 
     public Tarea(String nombre, String descripcion, String fechaLimite, int prioridad) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaLimite = fechaLimite;
         this.prioridad = prioridad;
+        this.realizada = false;
     }
 
     public abstract void mostrarDetalles();
@@ -39,6 +41,16 @@ public abstract class Tarea {
     public void setPrioridad(int prioridad) {
         this.prioridad = prioridad;
     }
+
+    public boolean isRealizada() {
+        return realizada;
+    }
+
+    public void setRealizada(boolean realizada) {
+        this.realizada = realizada;
+    }
+
+    
 
     
 
