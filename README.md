@@ -6,32 +6,26 @@ Para desarrollar nuestra aplicacion, hemos usado una interfaz grafica JavaFX par
 ### El Diseño de Nuestra Aplicacion(Orientado a java)
 ```mermaid
 classDiagram
-    class Persona {
+    class Tarea {
         - nombre: String
-        - edad: int
-        + constructor(nombre: String, edad: int)
-        + getNombre(): String
-        + setNombre(nombre: String): void
-        + getEdad(): int
-        + setEdad(edad: int): void
+        - Descripcion: String
+        - fechaLimite: String
+        - prioridad: int
+        + mostrarDetalles(): void
     }
 
-    class Empleado {
-        - salario: double
-        + constructor(nombre: String, edad: int, salario: double)
-        + getSalario(): double
-        + setSalario(salario: double): void
+    class TareaPersonal {
+       
     }
 
-    class Estudiante {
-        - grado: String
-        + constructor(nombre: String, edad: int, grado: String)
-        + getGrado(): String
-        + setGrado(grado: String): void
+    class TareaTrabajo {
+        
     }
 
-    Persona <|-- Empleado
-    Persona <|-- Estudiante
+    Tarea <|-- TareaPersonal
+    Tarea <|-- TareaTrabajo
+
+
 ```
 ### Modelo Entidad Relacion(Bases de Datos)
 ```mermaid
