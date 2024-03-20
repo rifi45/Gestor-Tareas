@@ -4,6 +4,7 @@
 Para desarrollar nuestra aplicacion, hemos usado una interfaz grafica JavaFX para que interactue con el usuario, y tambien para las bases de datos hemos utilizado SQL con oracle y para el control de versiones hemos usado git y el repositorio se encuentra en la nube [GitHub](https://github.com/rifi45/Gestor-Tareas)
 
 ### El Diseño de Nuestra Aplicacion(Orientado a java)
+Para lo referente al diagrama de clases, tenemos una clase Abstracta llamada tarea de la cual heredan dos subclases y implementan el metodo abstracto mostrarDetalles().
 ```mermaid
 classDiagram
     class Tarea {
