@@ -34,6 +34,7 @@ classDiagram
 
     Tarea <|-- TareaPersonal
     Tarea <|-- TareaTrabajo
+    GestorTareas <-- Tarea
 
 
 ```
