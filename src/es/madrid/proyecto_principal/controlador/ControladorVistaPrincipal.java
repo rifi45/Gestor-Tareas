@@ -188,15 +188,27 @@ public class ControladorVistaPrincipal implements Initializable{
      */
     @FXML
     void ordenarTareas(ActionEvent event) {
+        tareas.sort((t1, t2) -> Integer.compare(t1.getPrioridad(), t2.getPrioridad()));
+        gt.ordenarPila();
+    }
+
+    /**
+     * Al presionar este boton se realiza la tarea que se encuentra en la parte de arriba de la tabla y la elimino de la tabla.
+     * @param event
+     */
+    @FXML
+    void ejecutarTarea(ActionEvent event) {
+        gt.ejecutarTarea();
+        this.tareas.remove(0);
+    }
+
+    @FXML
+    void verTareasPendientes(ActionEvent event) {
 
     }
 
-    private boolean comprobarFormatoFecha(String fecha){
-        if(fecha.charAt(2) == '/' && fecha.charAt(5) == '/'){
-            return true;
-        }else{
-            return false;
-        }
+    @FXML
+    void verTareasRealizadas(ActionEvent event){
 
     }
 
@@ -239,6 +251,15 @@ public class ControladorVistaPrincipal implements Initializable{
             }
             this.tblTareas.setItems(this.tareas);
         }
+    }
+
+    private boolean comprobarFormatoFecha(String fecha){
+        if(fecha.charAt(2) == '/' && fecha.charAt(5) == '/'){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
 }

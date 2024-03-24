@@ -8,14 +8,18 @@ import es.madrid.proyecto_principal.modelo.dao_bbdd.DAOBaseDatos;
 public class GestorTareas {
     private Stack<Tarea> tareas;
 
-    public GestorTareas() {
+    public GestorTareas(){
         this.tareas = new Stack<>();
+        try {
+            this.tareas = obtenerTareasDeBBDD();
+        } catch (ClassNotFoundException | SQLException e) {
+        }
     }
 
     public boolean anadirTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
         boolean aniadidoPerfectamente = false;
         DAOBaseDatos db = new DAOBaseDatos();
-        this.tareas = obtenerTareasDeBBDD();
+
         if(!comprobarNombreUnico(tarea.getNombre())){
             this.tareas.add(tarea);
             db.insertarTareas(tarea);
@@ -58,11 +62,13 @@ public class GestorTareas {
     }
 
     public void ejecutarTarea(){
+        this.tareas.get(0).setRealizada(true);
         this.tareas.remove(0);
     }
 
     public void ordenarPila(){
-
+        this.tareas.sort((t1, t2) -> Integer.compare(t1.getPrioridad(), t2.getPrioridad()));
+        System.out.println(this.tareas.get(0).getNombre());
     }
 
     public Stack<Tarea> obtenerTareasDeBBDD() throws ClassNotFoundException, SQLException{

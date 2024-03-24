@@ -9,14 +9,14 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.madrid.proyecto_principal.controlador.ControladorVistaPrincipal">
    <children>
-      <Button fx:id="btnAgregar" layoutX="41.0" layoutY="388.0" mnemonicParsing="false" onAction="#agregarTarea" prefHeight="26.0" prefWidth="169.0" text="Agregar Tarea" />
-      <Button fx:id="btnEliminar" layoutX="41.0" layoutY="426.0" mnemonicParsing="false" onAction="#eliminarTarea" prefHeight="26.0" prefWidth="169.0" text="Eliminar Tarea" />
-      <Button fx:id="btnOrdenar" layoutX="41.0" layoutY="464.0" mnemonicParsing="false" onAction="#ordenarTareas" prefHeight="26.0" prefWidth="169.0" text="Ordenar Tareas" />
-      <TextField fx:id="txtNombre" layoutX="40.0" layoutY="180.0" prefHeight="37.0" prefWidth="170.0" promptText="Nombre..." />
-      <TextField fx:id="txtDescripcion" layoutX="40.0" layoutY="231.0" prefHeight="37.0" prefWidth="170.0" promptText="Descriocion..." />
-      <TextField fx:id="txtFechaLimite" layoutX="40.0" layoutY="286.0" prefHeight="37.0" prefWidth="170.0" promptText="Fecha Limite..." />
-      <TextField fx:id="txtPrioridad" layoutX="40.0" layoutY="336.0" prefHeight="37.0" prefWidth="170.0" promptText="Prioridad..." />
-      <TableView fx:id="tblTareas" layoutX="272.0" layoutY="78.0" onMouseClicked="#seleccionar" prefHeight="416.0" prefWidth="517.0">
+      <Button fx:id="btnAgregar" layoutX="42.0" layoutY="351.0" mnemonicParsing="false" onAction="#agregarTarea" prefHeight="26.0" prefWidth="169.0" text="Agregar Tarea" />
+      <Button fx:id="btnEliminar" layoutX="42.0" layoutY="389.0" mnemonicParsing="false" onAction="#eliminarTarea" prefHeight="26.0" prefWidth="169.0" text="Eliminar Tarea" />
+      <Button fx:id="btnOrdenar" layoutX="42.0" layoutY="427.0" mnemonicParsing="false" onAction="#ordenarTareas" prefHeight="26.0" prefWidth="169.0" text="Ordenar Tareas" />
+      <TextField fx:id="txtNombre" layoutX="41.0" layoutY="143.0" prefHeight="37.0" prefWidth="170.0" promptText="Nombre..." />
+      <TextField fx:id="txtDescripcion" layoutX="41.0" layoutY="194.0" prefHeight="37.0" prefWidth="170.0" promptText="Descriocion..." />
+      <TextField fx:id="txtFechaLimite" layoutX="41.0" layoutY="249.0" prefHeight="37.0" prefWidth="170.0" promptText="Fecha Limite..." />
+      <TextField fx:id="txtPrioridad" layoutX="41.0" layoutY="299.0" prefHeight="37.0" prefWidth="170.0" promptText="Prioridad..." />
+      <TableView fx:id="tblTareas" layoutX="233.0" layoutY="37.0" onMouseClicked="#seleccionar" prefHeight="457.0" prefWidth="557.0">
         <columns>
           <TableColumn fx:id="colNombre" prefWidth="130.39996337890625" text="Nombre" />
           <TableColumn fx:id="colDescripcion" prefWidth="117.5999755859375" text="Descripcion" />
@@ -24,9 +24,12 @@
             <TableColumn fx:id="colPrioridad" prefWidth="140.0" text="Prioridad" />
         </columns>
       </TableView>
-      <TextField fx:id="txtTipoTarea" layoutX="40.0" layoutY="139.0" prefHeight="26.0" prefWidth="68.0" promptText="Tipo..." />
-      <Label layoutX="41.0" layoutY="71.0" text="1 - Tarea Personal" />
-      <Label layoutX="40.0" layoutY="96.0" text="2 - Tarea Trabajo" />
-      <Label layoutX="40.0" layoutY="122.0" text="Introduzca tipo Tarea : " />
+      <TextField fx:id="txtTipoTarea" layoutX="41.0" layoutY="102.0" prefHeight="26.0" prefWidth="68.0" promptText="Tipo..." />
+      <Label layoutX="42.0" layoutY="34.0" text="1 - Tarea Personal" />
+      <Label layoutX="41.0" layoutY="59.0" text="2 - Tarea Trabajo" />
+      <Label layoutX="41.0" layoutY="85.0" text="Introduzca tipo Tarea : " />
+      <Button fx:id="btnEjecutarTarea" layoutX="42.0" layoutY="469.0" mnemonicParsing="false" onAction="#ejecutarTarea" prefHeight="26.0" prefWidth="170.0" text="Ejecutar Tarea" />
+      <Button layoutX="277.0" layoutY="526.0" mnemonicParsing="false" onAction="#verTareasRealizadas" prefHeight="26.0" prefWidth="170.0" text="Ver Tareas Realizadas" />
+      <Button layoutX="535.0" layoutY="526.0" mnemonicParsing="false" onAction="#verTareasPendientes" prefHeight="26.0" prefWidth="170.0" text="Ver Tareas Pendientes" />
    </children>
 </AnchorPane>

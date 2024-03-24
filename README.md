@@ -125,6 +125,10 @@ END;
 --Inserciones a la tabla de tarea
 INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZADA, ID_TIPO_TAREA) VALUES (ID_TAREA.NEXTVAL, 'Tarea Programacion', 'Añadir for al metodo comer()', '20/12/2023', 4, 'No', 2);
 INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZADA, ID_TIPO_TAREA) VALUES (ID_TAREA.NEXTVAL, 'Tarea Limpiar', 'Limpia tu despacho', '25/12/2023', 8, 'No', 1);
+INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZADA, ID_TIPO_TAREA) VALUES (ID_TAREA.NEXTVAL, 'Comprar ingredientes', 'Ir al supermercado y comprar ingredientes para cocinar la cena', '30/12/2023', 6, 'No', 1);
+INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZADA, ID_TIPO_TAREA) VALUES (ID_TAREA.NEXTVAL, 'Estudiar para examen', 'Repasar los apuntes y resolver ejercicios para el examen de matemáticas', '10/01/2024', 7, 'No', 1);
+INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZADA, ID_TIPO_TAREA) VALUES (ID_TAREA.NEXTVAL, 'Hacer ejercicio', 'Ir al gimnasio y realizar una rutina de entrenamiento', '05/01/2024', 5, 'No', 1);
+
 
 --Seleccionar para ver las tareas.
 select * from tarea;
