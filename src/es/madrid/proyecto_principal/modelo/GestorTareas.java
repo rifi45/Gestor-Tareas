@@ -1,6 +1,9 @@
 package es.madrid.proyecto_principal.modelo;
 
+import java.sql.SQLException;
 import java.util.Stack;
+
+import es.madrid.proyecto_principal.modelo.dao_bbdd.DAOBaseDatos;
 
 public class GestorTareas {
     private Stack<Tarea> tareas;
@@ -9,8 +12,10 @@ public class GestorTareas {
         this.tareas = new Stack<>();
     }
 
-    public void anadirTarea(Tarea tarea){
+    public void anadirTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
+        DAOBaseDatos db = new DAOBaseDatos();
         this.tareas.add(tarea);
+        db.insertarTareas(tarea);
     }
 
     public void eliminarTarea(Tarea tarea){
@@ -43,6 +48,15 @@ public class GestorTareas {
 
     public void ordenarPila(){
 
+    }
+
+    public Stack<Tarea> obtenerTareasDeBBDD() throws ClassNotFoundException, SQLException{
+        DAOBaseDatos db = new DAOBaseDatos();
+        if(!db.obtenerTareas().isEmpty()){
+            return db.obtenerTareas();
+        }else{
+            return null;
+        }
     }
 
     public Stack<Tarea> getTareas() {

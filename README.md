@@ -98,9 +98,9 @@ MODIFY FECHA_REALIZACION TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
 
 --Secuencias para ir incrementando el id
-CREATE SEQUENCE ID_INCRE_TAREA
+CREATE SEQUENCE ID_TAREA
 START WITH 1
-INCREMENT BY 1;
+INCREMENT BY 2;
 
 CREATE SEQUENCE ID_REGISTRO
 START WITH 1
@@ -121,6 +121,13 @@ BEGIN
     END IF;
 END;
 /
+
+--Inserciones a la tabla de tarea
+INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZADA, ID_TIPO_TAREA) VALUES (ID_TAREA.NEXTVAL, 'Tarea Programacion', 'Añadir for al metodo comer()', '20/12/2023', 4, 'No', 2);
+INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZADA, ID_TIPO_TAREA) VALUES (ID_TAREA.NEXTVAL, 'Tarea Limpiar', 'Limpia tu despacho', '25/12/2023', 8, 'No', 1);
+
+--Seleccionar para ver las tareas.
+select * from tarea;
 ```
 ### Prototipo de Interfaz de Usuario(Java FX)
 

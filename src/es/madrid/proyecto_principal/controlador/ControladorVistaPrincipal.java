@@ -1,11 +1,15 @@
 package es.madrid.proyecto_principal.controlador;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
+import es.madrid.proyecto_principal.modelo.GestorTareas;
 import es.madrid.proyecto_principal.modelo.Tarea;
 import es.madrid.proyecto_principal.modelo.TareaPersonal;
 import es.madrid.proyecto_principal.modelo.TareaTrabajo;
+import es.madrid.proyecto_principal.modelo.dao_bbdd.DAOBaseDatos;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -74,16 +78,24 @@ public class ControladorVistaPrincipal implements Initializable{
        this.colDescripcion.setCellValueFactory(new PropertyValueFactory("descripcion"));
        this.colFechaLimite.setCellValueFactory(new PropertyValueFactory("fechaLimite"));
        this.colPrioridad.setCellValueFactory(new PropertyValueFactory("prioridad"));
+
+        try {
+            iniciarBBDD();
+        } catch (ClassNotFoundException | SQLException e) {
+            }
     }
 
     /**
      * metodo que usamos cuando hacemos click en agregar tarea y le pasa un evento
      * este metodo se encarga de agregar tareas a la tabla
      * @param event
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
     @FXML
-    void agregarTarea(ActionEvent event) {
+    void agregarTarea(ActionEvent event) throws ClassNotFoundException, SQLException{
         Tarea tarea = null;
+        GestorTareas gt = new GestorTareas();;
 
         try{
             //Obtenemos los datos que el usuario mete por pantalla
@@ -105,12 +117,18 @@ public class ControladorVistaPrincipal implements Initializable{
                 alert.showAndWait();
             }
 
-
-            
-            // añadimos los datos obtenidos a la tabla de la vista
-            this.tareas.add(tarea);
-            this.tblTareas.setItems(tareas);
-            
+            if(comprobarFormatoFecha(fechaLimite) && fechaLimite.length() == 10){
+                // añadimos los datos obtenidos a la tabla de la vista
+                this.tareas.add(tarea);
+                this.tblTareas.setItems(tareas);
+                gt.anadirTarea(tarea);;
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("EL FORMATO DE LA FECHA ES INCORRECTO");
+                alert.setContentText("SIGA EL SIGUIENTE: XX/XX/XXXX");
+                alert.showAndWait();
+            }           
 
         }catch(NumberFormatException e){
             // controlamos que el formato de edad es el correcto
@@ -140,6 +158,39 @@ public class ControladorVistaPrincipal implements Initializable{
     @FXML
     void ordenarTareas(ActionEvent event) {
 
+    }
+
+    private boolean comprobarFormatoFecha(String fecha){
+        if(fecha.charAt(2) == '/' && fecha.charAt(5) == '/'){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    private void iniciarBBDD() throws ClassNotFoundException, SQLException{
+        GestorTareas gt = new GestorTareas();
+        Stack<Tarea> tareas = gt.obtenerTareasDeBBDD();
+        Tarea tarea = null;
+
+        if(tareas != null){
+            for(int i = 0; i < tareas.size(); i++){
+                String nombre = tareas.get(i).getNombre();
+                String descripcion = tareas.get(i).getDescripcion();
+                String fecha = tareas.get(i).getFechaLimite();
+                int prioridad = tareas.get(i).getPrioridad();
+                if(tareas.get(i) instanceof TareaPersonal){
+                    tarea = new TareaPersonal(nombre, descripcion, fecha, prioridad);
+                    tarea.setRealizada(tareas.get(i).isRealizada());
+                }else{
+                    tarea = new TareaTrabajo(nombre, descripcion, fecha, prioridad);
+                    tarea.setRealizada(tareas.get(i).isRealizada());
+                }
+                this.tareas.add(tarea);
+            }
+            this.tblTareas.setItems(this.tareas);
+        }
     }
 
 }

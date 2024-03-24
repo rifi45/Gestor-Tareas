@@ -2,7 +2,9 @@ package es.madrid.proyecto_principal.modelo.dao_bbdd;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Stack;
 
 import es.madrid.proyecto_principal.modelo.Tarea;
 import es.madrid.proyecto_principal.modelo.TareaPersonal;
@@ -22,7 +24,8 @@ public class DAOBaseDatos{
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public void insertarTareas(Tarea tarea) throws ClassNotFoundException, SQLException{
+    public boolean insertarTareas(Tarea tarea) throws ClassNotFoundException, SQLException{
+        boolean comprobar = false;
         cnx = ConexionBD.connect();
         String sql = "INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZADA, ID_TIPO_TAREA) VALUES (ID_TAREA.NEXTVAL, ?, ?, ?, ?, ?, ?)";
 
@@ -37,8 +40,10 @@ public class DAOBaseDatos{
             }else if(tarea instanceof TareaTrabajo){
                 pr.setInt(6, 2);
             }
-
+            pr.executeUpdate();
+            comprobar = true;
         }  
+        return comprobar;
     }
 
     /**
@@ -46,10 +51,32 @@ public class DAOBaseDatos{
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public void obtenerTareas()  throws ClassNotFoundException, SQLException{
-        
+    public Stack<Tarea> obtenerTareas()  throws ClassNotFoundException, SQLException{
+        Stack<Tarea> tareas = new Stack<>();
+        Tarea tarea = null;
+        String sql = "Select * from TAREA";
+        cnx = ConexionBD.connect();
+        try(PreparedStatement st = cnx.prepareStatement(sql);
+        ResultSet rs = st.executeQuery()){
+            while(rs.next()){
+                String nombre = rs.getString("NOMBRE");
+                String descripcion = rs.getString("DESCRIPCION");
+                String fechaLimite = rs.getString("FECHA_LIMITE");
+                int prioridad = rs.getInt("PRIORIDAD");
+                boolean realizada = (rs.getString("REALIZADA").equalsIgnoreCase("SI"))? true : false;
+                int tipoTarea = rs.getInt("ID_TIPO_TAREA");
+                if(tipoTarea == 1){
+                    tarea = new TareaPersonal(nombre, descripcion, fechaLimite, prioridad);
+                    tarea.setRealizada(realizada);
+                }else if(tipoTarea == 2){
+                    tarea = new TareaTrabajo(nombre, descripcion, fechaLimite, prioridad);
+                    tarea.setRealizada(realizada);
+                }
 
-
+                tareas.push(tarea);
+            }
+        }
+        return tareas;
     }
 
     /**
