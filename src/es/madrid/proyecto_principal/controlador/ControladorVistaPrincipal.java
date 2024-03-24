@@ -9,7 +9,6 @@ import es.madrid.proyecto_principal.modelo.GestorTareas;
 import es.madrid.proyecto_principal.modelo.Tarea;
 import es.madrid.proyecto_principal.modelo.TareaPersonal;
 import es.madrid.proyecto_principal.modelo.TareaTrabajo;
-import es.madrid.proyecto_principal.modelo.dao_bbdd.DAOBaseDatos;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 /**
  * Clase controlador es la clase que nos permite controlar nuestra Vista
@@ -153,10 +153,32 @@ public class ControladorVistaPrincipal implements Initializable{
      * metodo que usamos cuando hacemos click en eliminar tarea y le pasa un evento
      * este metodo de eliminar una tarea
      * @param event
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
     @FXML
-    void eliminarTarea(ActionEvent event) {
+    void eliminarTarea(ActionEvent event) throws ClassNotFoundException, SQLException {
+        Tarea t = this.tblTareas.getSelectionModel().getSelectedItem();
 
+        if(t != null){
+            this.tareas.remove(t);
+            this.tblTareas.refresh();
+            boolean comprobarEliminacion = gt.eliminarTarea(t);
+
+            if(!comprobarEliminacion){
+                Alert alert = new  Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("NO SE ENCOTRO A LA TAREA");
+                alert.setContentText("No se pudo completar la operación.");
+                alert.showAndWait();
+            }
+        }else{
+            Alert alert = new  Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("DEBES SELECCIONAR UNA TAREA");
+            alert.setContentText("No se pudo completar la operación.");
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -176,6 +198,23 @@ public class ControladorVistaPrincipal implements Initializable{
             return false;
         }
 
+    }
+
+    /**
+     * Metodo para al seleccionar una tarea ponerla en las textfield
+     * @param event
+     */
+    @FXML
+    void seleccionar(MouseEvent event) {
+        Tarea t = this.tblTareas.getSelectionModel().getSelectedItem();
+
+        if(t != null){
+            this.txtNombre.setText(t.getNombre());
+            this.txtDescripcion.setText(t.getDescripcion());
+            this.txtFechaLimite.setText(t.getFechaLimite());
+            this.txtPrioridad.setText(t.getPrioridad() + "");
+            this.txtTipoTarea.setText(((t instanceof TareaPersonal)? 1: 2) + "");
+        }
     }
 
     private void iniciarBBDD() throws ClassNotFoundException, SQLException{

@@ -25,17 +25,23 @@ public class GestorTareas {
         return aniadidoPerfectamente;
     }
 
-    public void eliminarTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
+    public boolean eliminarTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
         DAOBaseDatos db = new DAOBaseDatos();
         this.tareas.removeElement(tarea);
-        db.eliminarTarea(tarea);
+        int filasAfectadas = db.eliminarTarea(tarea);
+
+        if(filasAfectadas > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public Stack<Tarea> verTareasPendientes(){
         Stack<Tarea> tareasPendientes = new Stack<>();
-        for(int i = 0; i < this.tareas.size(); i++){
-            if(this.tareas.get(i).isRealizada() == false){
-                tareasPendientes.add(this.tareas.get(i));
+        for(Tarea p : this.tareas){
+            if(p.isRealizada() == false){
+                tareasPendientes.add(p);
             }
         }
         return tareasPendientes;
@@ -43,9 +49,9 @@ public class GestorTareas {
 
     public Stack<Tarea> verTareasRealizadas(){
         Stack<Tarea> TareasRealizadas = new Stack<>();
-        for(int i = 0; i < this.tareas.size(); i++){
-            if(this.tareas.get(i).isRealizada() == true){
-                TareasRealizadas.add(this.tareas.get(i));
+        for(Tarea p : this.tareas){
+            if(p.isRealizada() == true){
+                TareasRealizadas.add(p);
             }
         }
         return TareasRealizadas;
@@ -80,8 +86,8 @@ public class GestorTareas {
 
     public boolean comprobarNombreUnico(String nombre){
         boolean existe = false;
-        for(int i = 0; i < this.tareas.size(); i++){
-            if(this.tareas.get(i).getNombre().equalsIgnoreCase(nombre)){
+        for(Tarea tarea : this.tareas){
+            if(tarea.getNombre().equalsIgnoreCase(nombre)){
                 existe = true;
             }
         }

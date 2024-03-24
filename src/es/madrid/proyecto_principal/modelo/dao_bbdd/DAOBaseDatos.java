@@ -90,14 +90,17 @@ public class DAOBaseDatos{
         
     }
 
-    public void eliminarTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
+    public int eliminarTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
         cnx = ConexionBD.connect();
         String sql = "DELETE FROM TAREA WHERE NOMBRE = ?";
+        int filasAfectadas = 0;
         
         try(PreparedStatement st = cnx.prepareStatement(sql)){
             st.setString(1, tarea.getNombre());
-            st.executeQuery();
+            filasAfectadas = st.executeUpdate();
         }
+
+        return filasAfectadas;
     }
 
     private String devolverSioNo(Boolean booleano){

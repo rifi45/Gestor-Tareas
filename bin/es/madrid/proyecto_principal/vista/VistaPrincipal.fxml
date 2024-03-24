@@ -16,7 +16,7 @@
       <TextField fx:id="txtDescripcion" layoutX="40.0" layoutY="231.0" prefHeight="37.0" prefWidth="170.0" promptText="Descriocion..." />
       <TextField fx:id="txtFechaLimite" layoutX="40.0" layoutY="286.0" prefHeight="37.0" prefWidth="170.0" promptText="Fecha Limite..." />
       <TextField fx:id="txtPrioridad" layoutX="40.0" layoutY="336.0" prefHeight="37.0" prefWidth="170.0" promptText="Prioridad..." />
-      <TableView fx:id="tblTareas" layoutX="272.0" layoutY="78.0" prefHeight="416.0" prefWidth="517.0">
+      <TableView fx:id="tblTareas" layoutX="272.0" layoutY="78.0" onMouseClicked="#seleccionar" prefHeight="416.0" prefWidth="517.0">
         <columns>
           <TableColumn fx:id="colNombre" prefWidth="130.39996337890625" text="Nombre" />
           <TableColumn fx:id="colDescripcion" prefWidth="117.5999755859375" text="Descripcion" />
