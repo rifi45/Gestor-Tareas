@@ -69,6 +69,8 @@ public class ControladorVistaPrincipal implements Initializable{
 
     private ObservableList<Tarea> tareas;
 
+    static GestorTareas gt = new GestorTareas();
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
         tareas = FXCollections.observableArrayList();
@@ -95,7 +97,6 @@ public class ControladorVistaPrincipal implements Initializable{
     @FXML
     void agregarTarea(ActionEvent event) throws ClassNotFoundException, SQLException{
         Tarea tarea = null;
-        GestorTareas gt = new GestorTareas();;
 
         try{
             //Obtenemos los datos que el usuario mete por pantalla
@@ -119,9 +120,17 @@ public class ControladorVistaPrincipal implements Initializable{
 
             if(comprobarFormatoFecha(fechaLimite) && fechaLimite.length() == 10){
                 // añadimos los datos obtenidos a la tabla de la vista
-                this.tareas.add(tarea);
-                this.tblTareas.setItems(tareas);
-                gt.anadirTarea(tarea);;
+                boolean comprobarNombreUnico = gt.anadirTarea(tarea);
+                if(comprobarNombreUnico){
+                    this.tareas.add(tarea);
+                    this.tblTareas.setItems(tareas);
+                }else{
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("EL NOMBRE YA EXISTE, ELIJA OTRO");
+                    alert.setContentText("ERROR EN EL NOMBRE");
+                    alert.showAndWait();
+                }
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");

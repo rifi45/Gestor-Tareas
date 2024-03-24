@@ -84,10 +84,20 @@ public class DAOBaseDatos{
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public void modificarTareas()  throws ClassNotFoundException, SQLException{
+    public void modificarTareas() throws ClassNotFoundException, SQLException{
         
 
         
+    }
+
+    public void eliminarTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
+        cnx = ConexionBD.connect();
+        String sql = "DELETE FROM TAREA WHERE NOMBRE = ?";
+        
+        try(PreparedStatement st = cnx.prepareStatement(sql)){
+            st.setString(1, tarea.getNombre());
+            st.executeQuery();
+        }
     }
 
     private String devolverSioNo(Boolean booleano){

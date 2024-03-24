@@ -12,14 +12,23 @@ public class GestorTareas {
         this.tareas = new Stack<>();
     }
 
-    public void anadirTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
+    public boolean anadirTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
+        boolean aniadidoPerfectamente = false;
         DAOBaseDatos db = new DAOBaseDatos();
-        this.tareas.add(tarea);
-        db.insertarTareas(tarea);
+        this.tareas = obtenerTareasDeBBDD();
+        if(!comprobarNombreUnico(tarea.getNombre())){
+            this.tareas.add(tarea);
+            db.insertarTareas(tarea);
+            aniadidoPerfectamente = true;
+        }
+
+        return aniadidoPerfectamente;
     }
 
-    public void eliminarTarea(Tarea tarea){
+    public void eliminarTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
+        DAOBaseDatos db = new DAOBaseDatos();
         this.tareas.removeElement(tarea);
+        db.eliminarTarea(tarea);
     }
 
     public Stack<Tarea> verTareasPendientes(){
@@ -65,5 +74,18 @@ public class GestorTareas {
 
     public void setTareas(Stack<Tarea> tareas) {
         this.tareas = tareas;
+    }
+
+    // Clases de comprobacion necesarias y privadas
+
+    public boolean comprobarNombreUnico(String nombre){
+        boolean existe = false;
+        for(int i = 0; i < this.tareas.size(); i++){
+            if(this.tareas.get(i).getNombre().equalsIgnoreCase(nombre)){
+                existe = true;
+            }
+        }
+
+        return existe;
     }
 }
