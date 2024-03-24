@@ -1,10 +1,11 @@
-package es.madrid.proyecto_principal.vista;
+package es.madrid.proyecto_principal.controlador;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import es.madrid.proyecto_principal.modelo.Tarea;
 import es.madrid.proyecto_principal.modelo.TareaPersonal;
+import es.madrid.proyecto_principal.modelo.TareaTrabajo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,6 +60,9 @@ public class ControladorVistaPrincipal implements Initializable{
     @FXML
     private TextField txtPrioridad;
 
+    @FXML
+    private TextField txtTipoTarea;
+
     private ObservableList<Tarea> tareas;
 
     @Override
@@ -79,6 +83,7 @@ public class ControladorVistaPrincipal implements Initializable{
      */
     @FXML
     void agregarTarea(ActionEvent event) {
+        Tarea tarea = null;
 
         try{
             //Obtenemos los datos que el usuario mete por pantalla
@@ -87,7 +92,19 @@ public class ControladorVistaPrincipal implements Initializable{
             String fechaLimite = txtFechaLimite.getText();
             int prioridad = Integer.parseInt(txtPrioridad.getText());
 
-            Tarea tarea = new TareaPersonal(nombre, descripcion, fechaLimite, prioridad);
+            //Comprobar la tarea elegida es la correcta.
+            if(Integer.parseInt(this.txtTipoTarea.getText()) == 1){
+                tarea = new TareaPersonal(nombre, descripcion, fechaLimite, prioridad);
+            }else if(Integer.parseInt(this.txtTipoTarea.getText()) == 2){
+                tarea = new TareaTrabajo(nombre, descripcion, fechaLimite, prioridad);
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Se ha producido un error en el campo tipo tarea");
+                alert.setContentText("No se pudo completar la operación.");
+                alert.showAndWait();
+            }
+
 
             
             // añadimos los datos obtenidos a la tabla de la vista
@@ -99,7 +116,7 @@ public class ControladorVistaPrincipal implements Initializable{
             // controlamos que el formato de edad es el correcto
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Se ha producido un error en el campo edad");
+            alert.setHeaderText("Se ha producido un error en un campo numerico");
             alert.setContentText("No se pudo completar la operación.");
             alert.showAndWait();
         }

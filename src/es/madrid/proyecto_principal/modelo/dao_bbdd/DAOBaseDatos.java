@@ -1,6 +1,12 @@
 package es.madrid.proyecto_principal.modelo.dao_bbdd;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import es.madrid.proyecto_principal.modelo.Tarea;
+import es.madrid.proyecto_principal.modelo.TareaPersonal;
+import es.madrid.proyecto_principal.modelo.TareaTrabajo;
 
 /**
  * Clase de DAO
@@ -8,20 +14,31 @@ import java.sql.SQLException;
  * Base de datos
  */
 
-public class DAOBaseDatos implements IAccesible {
-    static ConexionBD cnx = new ConexionBD();
+public class DAOBaseDatos{
+    static Connection cnx = null;
 
     /**
      * Metodo que sirve para insertar nuevas tareas en nuestra base de datos
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    @Override
-    public void insertarTareas() throws ClassNotFoundException, SQLException{
-        cnx.connect();
+    public void insertarTareas(Tarea tarea) throws ClassNotFoundException, SQLException{
+        cnx = ConexionBD.connect();
+        String sql = "INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZADA, ID_TIPO_TAREA) VALUES (ID_TAREA.NEXTVAL, ?, ?, ?, ?, ?, ?)";
 
-        
-        
+        try(PreparedStatement pr = cnx.prepareStatement(sql)){
+            pr.setString(1, tarea.getNombre());
+            pr.setString(2, tarea.getDescripcion());
+            pr.setString(3, tarea.getFechaLimite());
+            pr.setInt(4, tarea.getPrioridad());
+            pr.setString(5, devolverSioNo(tarea.isRealizada()));
+            if(tarea instanceof TareaPersonal){
+                pr.setInt(6, 1);
+            }else if(tarea instanceof TareaTrabajo){
+                pr.setInt(6, 2);
+            }
+
+        }  
     }
 
     /**
@@ -29,9 +46,8 @@ public class DAOBaseDatos implements IAccesible {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    @Override
     public void obtenerTareas()  throws ClassNotFoundException, SQLException{
-        cnx.connect();
+        
 
 
     }
@@ -41,11 +57,18 @@ public class DAOBaseDatos implements IAccesible {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    @Override
     public void modificarTareas()  throws ClassNotFoundException, SQLException{
-        cnx.connect();
+        
 
         
+    }
+
+    private String devolverSioNo(Boolean booleano){
+        if(booleano) return "Si";
+
+        if(!booleano) return "No";
+
+        return null;
     }
     
 }

@@ -22,7 +22,7 @@ public class ConexionBD {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public Connection connect() throws ClassNotFoundException, SQLException {
+    public static Connection connect() throws ClassNotFoundException, SQLException {
         
         String ojdbcPath = "lib/ojdbc.jar";
   

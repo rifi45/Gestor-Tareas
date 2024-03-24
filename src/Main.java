@@ -5,9 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import es.madrid.proyecto_principal.controlador.ControladorVistaPrincipal;
 
-//Importaciones de clases locales
-import es.madrid.proyecto_principal.vista.*;
 
 /**
  * @autor Mohamed Afallah
