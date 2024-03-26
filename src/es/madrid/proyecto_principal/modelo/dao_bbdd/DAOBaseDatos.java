@@ -48,13 +48,48 @@ public class DAOBaseDatos{
 
     /**
      * Metodo que sirve para sacar todas las tareas existentes en nuestra base de datos
+     * @return Devuelve una pila de tareas pendientes por realizar
      * @throws ClassNotFoundException
      * @throws SQLException
      */
     public Stack<Tarea> obtenerTareas()  throws ClassNotFoundException, SQLException{
         Stack<Tarea> tareas = new Stack<>();
         Tarea tarea = null;
-        String sql = "Select * from TAREA";
+        String sql = "Select * from TAREA where realizada = 'No'";
+        cnx = ConexionBD.connect();
+        try(PreparedStatement st = cnx.prepareStatement(sql);
+        ResultSet rs = st.executeQuery()){
+            while(rs.next()){
+                String nombre = rs.getString("NOMBRE");
+                String descripcion = rs.getString("DESCRIPCION");
+                String fechaLimite = rs.getString("FECHA_LIMITE");
+                int prioridad = rs.getInt("PRIORIDAD");
+                boolean realizada = (rs.getString("REALIZADA").equalsIgnoreCase("SI"))? true : false;
+                int tipoTarea = rs.getInt("ID_TIPO_TAREA");
+                if(tipoTarea == 1){
+                    tarea = new TareaPersonal(nombre, descripcion, fechaLimite, prioridad);
+                    tarea.setRealizada(realizada);
+                }else if(tipoTarea == 2){
+                    tarea = new TareaTrabajo(nombre, descripcion, fechaLimite, prioridad);
+                    tarea.setRealizada(realizada);
+                }
+
+                tareas.push(tarea);
+            }
+        }
+        return tareas;
+    }
+
+    /**
+     * Metodo que sirve para obtener las tareas realizasas 
+     * @return devuelve una pila de tareas donde isRealizada() = true
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public Stack<Tarea> obtenerTareasRealizadas()  throws ClassNotFoundException, SQLException{
+        Stack<Tarea> tareas = new Stack<>();
+        Tarea tarea = null;
+        String sql = "Select * from TAREA where realizada = 'Si'";
         cnx = ConexionBD.connect();
         try(PreparedStatement st = cnx.prepareStatement(sql);
         ResultSet rs = st.executeQuery()){
@@ -84,12 +119,22 @@ public class DAOBaseDatos{
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public void modificarTareas() throws ClassNotFoundException, SQLException{
-        
-
-        
+    public void modificarTareas(Tarea tarea) throws ClassNotFoundException, SQLException{
+        cnx = ConexionBD.connect();
+        String sql = "UPDATE TAREA SET REALIZADA = 'Si' WHERE NOMBRE = ?";
+        try(PreparedStatement pr = cnx.prepareStatement(sql)){
+            pr.setString(1, tarea.getNombre());
+            pr.executeUpdate();
+        }
     }
 
+    /**
+     * Metodo que sirve para eliminar una tarea de la base de datos
+     * @param tarea
+     * @return el numero de filas afectadas
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public int eliminarTarea(Tarea tarea) throws ClassNotFoundException, SQLException{
         cnx = ConexionBD.connect();
         String sql = "DELETE FROM TAREA WHERE NOMBRE = ?";
@@ -103,6 +148,11 @@ public class DAOBaseDatos{
         return filasAfectadas;
     }
 
+    /**
+     * Metodo que sirve para cambiar un boolean a un String y sirve para añadir a la base de datos
+     * @param booleano
+     * @return un texto Si o No
+     */
     private String devolverSioNo(Boolean booleano){
         if(booleano) return "Si";
 

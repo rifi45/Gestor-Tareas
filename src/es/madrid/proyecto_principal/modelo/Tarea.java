@@ -1,11 +1,17 @@
 package es.madrid.proyecto_principal.modelo;
 
+/**
+ * Clase tarea es abstracta.
+ * tiene un metodo abstracto
+ * Define lo que es una Tarea
+ */
+
 public abstract class Tarea {
-    private String nombre;
-    private String descripcion;
-    private String fechaLimite;
-    private int prioridad;
-    private boolean realizada;
+    protected String nombre;
+    protected String descripcion;
+    protected String fechaLimite;
+    protected int prioridad;
+    protected boolean realizada;
 
     public Tarea(String nombre, String descripcion, String fechaLimite, int prioridad) {
         this.nombre = nombre;

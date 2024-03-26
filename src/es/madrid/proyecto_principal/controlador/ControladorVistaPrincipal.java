@@ -1,5 +1,6 @@
 package es.madrid.proyecto_principal.controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -69,7 +70,7 @@ public class ControladorVistaPrincipal implements Initializable{
 
     private ObservableList<Tarea> tareas;
 
-    static GestorTareas gt = new GestorTareas();
+    private  GestorTareas gt;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -82,6 +83,7 @@ public class ControladorVistaPrincipal implements Initializable{
        this.colPrioridad.setCellValueFactory(new PropertyValueFactory("prioridad"));
 
         try {
+            //Llamamos al metodo que inicia nuestras bases de datos y tambien inicia nuestro gestor de tienda
             iniciarBBDD();
         } catch (ClassNotFoundException | SQLException e) {
             }
@@ -195,21 +197,30 @@ public class ControladorVistaPrincipal implements Initializable{
     /**
      * Al presionar este boton se realiza la tarea que se encuentra en la parte de arriba de la tabla y la elimino de la tabla.
      * @param event
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
     @FXML
-    void ejecutarTarea(ActionEvent event) {
+    void ejecutarTarea(ActionEvent event) throws ClassNotFoundException, SQLException {
         gt.ejecutarTarea();
         this.tareas.remove(0);
     }
 
+    /**
+     * Se imprime un fichero con las tareas que se han realizado
+     * @param event
+     * @throws IOException
+     */
     @FXML
-    void verTareasPendientes(ActionEvent event) {
-
-    }
-
-    @FXML
-    void verTareasRealizadas(ActionEvent event){
-
+    void verTareasRealizadas(ActionEvent event) throws IOException{
+        boolean seImprimio = gt.verTareasRealizadas();
+        if(seImprimio){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("HECHO");
+            alert.setHeaderText("SE IMPRIMIO UN FICHERO CON LAS TAREAS REALIZADAS");
+            alert.setContentText("CONSULTAR EL FICHERTO TEXTO");
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -229,9 +240,29 @@ public class ControladorVistaPrincipal implements Initializable{
         }
     }
 
+    /**
+     * comprobar que la fecha que se introduce tiene el formato correcto.
+     * @param fecha
+     * @return
+     */
+    private boolean comprobarFormatoFecha(String fecha){
+        if(fecha.charAt(2) == '/' && fecha.charAt(5) == '/'){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    /**
+     * Metodo que usamos para iniciar nuestro gestor de tareas y tambien establecer nuestras tareas.
+     * y tambien se inician nuestra tabla con las tareas que no se realizaron todavia
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     private void iniciarBBDD() throws ClassNotFoundException, SQLException{
-        GestorTareas gt = new GestorTareas();
-        Stack<Tarea> tareas = gt.obtenerTareasDeBBDD();
+        this.gt = new GestorTareas();
+        Stack<Tarea> tareas = gt.getTareas();
         Tarea tarea = null;
 
         if(tareas != null){
@@ -247,20 +278,13 @@ public class ControladorVistaPrincipal implements Initializable{
                     tarea = new TareaTrabajo(nombre, descripcion, fecha, prioridad);
                     tarea.setRealizada(tareas.get(i).isRealizada());
                 }
-                this.tareas.add(tarea);
+
+                if(!tarea.isRealizada()){
+                    this.tareas.add(tarea);
+                }
             }
             this.tblTareas.setItems(this.tareas);
         }
     }
-
-    private boolean comprobarFormatoFecha(String fecha){
-        if(fecha.charAt(2) == '/' && fecha.charAt(5) == '/'){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
-
 }
 
