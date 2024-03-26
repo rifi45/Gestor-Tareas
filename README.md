@@ -24,9 +24,10 @@ Para lo referente al diagrama de clases, tenemos una clase Abstracta llamada tar
 classDiagram
     class GestorTareas {
         - tareas: Stack<Tarea>
+        - tareasRealizadas: Stack<Tarea>
+
         +añadirTarea(Tarea tarea) : void
         +eliminarTarea() : Tarea
-        +verTareasPendientes(): Stack<Tarea>
         +verTareasRealizadas(): Stack<Tarea>
         +ejecutarTarea(): void
         +ordenarPorPrioridad(): void
