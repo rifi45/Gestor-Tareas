@@ -1,7 +1,22 @@
 # Gestor de Tareas
 ### Un resumen de Herramientas.
 
-Para desarrollar nuestra aplicacion, hemos usado una interfaz grafica JavaFX para que interactue con el usuario, y tambien para las bases de datos hemos utilizado SQL con oracle y para el control de versiones hemos usado git y el repositorio se encuentra en la nube [GitHub](https://github.com/rifi45/Gestor-Tareas)
+Para desarrollar nuestra aplicacion, hemos usado una interfaz grafica JavaFX para que interactue con el usuario, y tambien para las bases de datos hemos utilizado SQL con oracle y para el control de versiones hemos usado git y el repositorio se encuentra en la nube [GitHub](https://github.com/rifi45/Gestor-Tareas), Nuestro proyecto una estructura MVC.
+
+### El funcionamiento de nuestra App.
+
+- *TABLA* / **NUESTRA TABLA :** Nuestra Aplicacion al inicio obtiene datos de la BBDD y muestra una tabla de tareas que no se han realizado. Mientras en el fondo se guardan las tareas realizadas en una pila de tareas realizadas y no se muestran.
+
+- *Buton* / **VER TAREAS REALIZADAS :** Al hacer click en este buton, imprime un fichero de formato .txt con todas las tareas que se encuentran realizadas.
+  
+
+- *Buton* / **AGREGAR TAREA :** Al completar el formulario de arriba se añade una tarea.
+
+- *Buton* / **ELIMINAR TAREA :** Al seleccionar una tarea con el raton y hacer click sobre este buton se elimina la tarea.
+
+- *Buton* / **ORDENAR TAREAS :** Se ordenan nuestras tareas de menor a mayor basandose en la prioridad
+
+- *Buton* / **EJECUTAR TAREA :** Ejecuta la tarea que se encuentra en la cima de nuestra tabla, la elimina y la realiza.
 
 ### El Diseño de Nuestra Aplicacion(Orientado a java)
 Para lo referente al diagrama de clases, tenemos una clase Abstracta llamada tarea de la cual heredan dos subclases y implementan el metodo abstracto mostrarDetalles().
@@ -133,6 +148,6 @@ INSERT INTO TAREA(ID_TAREA, NOMBRE, DESCRIPCION, FECHA_LIMITE, PRIORIDAD, REALIZ
 --Seleccionar para ver las tareas.
 select * from tarea;
 ```
-### Prototipo de Interfaz de Usuario(Java FX)
+### Como iniciar nuestro proyecto.
 
-Solo hay una ventana en la cual hay una tabla que realiza todas las funciones necesarias de nuestra app.
+para que funcione nuestro proyecto en tu ordenador, se necesita que creas una base de datos similar a la nuestra y ajustar las consultas de la clase *DAOBaseDatos.java* y cambiar la *ConexionBD.java* y ajusturalo a tu gestor de bases de datos con su respectivo driver.
