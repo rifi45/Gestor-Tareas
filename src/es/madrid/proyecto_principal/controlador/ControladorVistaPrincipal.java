@@ -75,6 +75,7 @@ public class ControladorVistaPrincipal implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb){
         tareas = FXCollections.observableArrayList();
+        this.gt = new GestorTareas();
 
         //Aqui vinculamos cada celda con su respectivo atributo de la clase Tarea
        this.colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
@@ -261,7 +262,6 @@ public class ControladorVistaPrincipal implements Initializable{
      * @throws SQLException
      */
     private void iniciarBBDD() throws ClassNotFoundException, SQLException{
-        this.gt = new GestorTareas();
         Stack<Tarea> tareas = gt.getTareas();
         Tarea tarea = null;
 
